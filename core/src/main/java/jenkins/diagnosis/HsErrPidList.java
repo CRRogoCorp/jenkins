@@ -6,6 +6,7 @@ import hudson.Util;
 import hudson.diagnosis.Messages;
 import hudson.model.AdministrativeMonitor;
 import hudson.util.jna.Kernel32Utils;
+import io.openpixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -136,7 +137,7 @@ public class HsErrPidList extends AdministrativeMonitor {
 
 
             String line;
-            while ((line = r.readLine()) != null) {
+            while ((line = BoundedLineReader.readLine(r, 1000000)) != null) {
                 if (line.contains(secretKey)) {
                     files.add(new HsErrPidFile(this, log));
                     return;
@@ -154,7 +155,7 @@ public class HsErrPidList extends AdministrativeMonitor {
 
     private boolean findHeader(BufferedReader r) throws IOException {
         for (int i = 0; i < 5; i++) {
-            String line = r.readLine();
+            String line = BoundedLineReader.readLine(r, 1000000);
             if (line == null)
                 return false;
             if (line.startsWith("# A fatal error has been detected by the Java Runtime Environment:"))
