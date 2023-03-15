@@ -39,6 +39,7 @@ import hudson.model.BuildListener;
 import hudson.model.Descriptor;
 import hudson.tasks.Builder;
 import hudson.util.ReflectionUtils.Parameter;
+import io.openpixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -537,7 +538,7 @@ public abstract class FormValidation extends IOException implements HttpResponse
         @Deprecated
         protected boolean findText(BufferedReader in, String literal) throws IOException {
             String line;
-            while ((line = in.readLine()) != null)
+            while ((line = BoundedLineReader.readLine(in, 1000000)) != null)
                 if (line.contains(literal))
                     return true;
             return false;
