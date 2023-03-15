@@ -25,6 +25,7 @@
 package hudson.util;
 
 import static hudson.init.InitMilestone.JOB_CONFIG_ADAPTED;
+import java.security.SecureRandom;
 import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -77,7 +78,7 @@ public class DoubleLaunchChecker {
      */
     private boolean ignore = false;
 
-    private final Random random = new Random();
+    private final Random random = new SecureRandom();
 
     public final File home;
 
