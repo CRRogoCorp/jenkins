@@ -4,6 +4,7 @@ import static hudson.Util.fileToPath;
 
 import hudson.Functions;
 import hudson.Util;
+import io.openpixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.File;
@@ -145,7 +146,7 @@ public class IOUtils {
     public static String readFirstLine(InputStream is, String encoding) throws IOException {
         try (BufferedReader reader = new BufferedReader(
                 encoding == null ? new InputStreamReader(is, Charset.defaultCharset()) : new InputStreamReader(is, encoding))) {
-            return reader.readLine();
+            return BoundedLineReader.readLine(reader, 1000000);
         }
     }
 
