@@ -24,6 +24,7 @@
 
 package hudson.security;
 
+import java.security.SecureRandom;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
@@ -980,7 +981,7 @@ public class HudsonPrivateSecurityRealm extends AbstractPasswordBasedSecurityRea
 
     @SuppressFBWarnings(value = {"DMI_RANDOM_USED_ONLY_ONCE", "PREDICTABLE_RANDOM"}, justification = "https://github.com/spotbugs/spotbugs/issues/1539 and doesn't need to be secure, we're just not hardcoding a 'wrong' password")
     private static String generatePassword() {
-        String password = new Random().ints(20, 33, 127).mapToObj(i -> (char) i)
+        String password = new SecureRandom().ints(20, 33, 127).mapToObj(i -> (char) i)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
         return password;
     }
