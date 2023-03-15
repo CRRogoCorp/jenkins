@@ -3,6 +3,7 @@ package hudson.util;
 import hudson.Functions;
 import hudson.Util;
 import hudson.model.TaskListener;
+import io.openpixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -90,7 +91,7 @@ public class SecretRewriter {
                 String line;
                 StringBuilder buf = new StringBuilder();
 
-                while ((line = r.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(r, 1000000)) != null) {
                     int copied = 0;
                     buf.setLength(0);
                     while (true) {
