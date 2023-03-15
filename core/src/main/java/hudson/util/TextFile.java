@@ -26,6 +26,7 @@ package hudson.util;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Util;
+import io.openpixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -70,7 +71,7 @@ public class TextFile {
         PrintWriter w = new PrintWriter(out);
         try (BufferedReader in = Files.newBufferedReader(Util.fileToPath(file), StandardCharsets.UTF_8)) {
             String line;
-            while ((line = in.readLine()) != null)
+            while ((line = BoundedLineReader.readLine(in, 1000000)) != null)
                 w.println(line);
         } catch (Exception e) {
             throw new IOException("Failed to fully read " + file, e);
