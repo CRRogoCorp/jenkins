@@ -24,6 +24,7 @@
 
 package hudson.util;
 
+import io.openpixee.security.BoundedLineReader;
 import static java.util.logging.Level.WARNING;
 
 import java.io.BufferedReader;
@@ -55,7 +56,7 @@ public class Service {
             URL url = e.nextElement();
             try (BufferedReader configFile = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
                 String line;
-                while ((line = configFile.readLine()) != null) {
+                while ((line = BoundedLineReader.readLine(configFile, 1000000)) != null) {
                     line = line.trim();
                     if (line.startsWith("#") || line.length() == 0) continue;
 
@@ -85,7 +86,7 @@ public class Service {
                 final URL url = e.nextElement();
                 try (BufferedReader r = new BufferedReader(new InputStreamReader(url.openStream(), StandardCharsets.UTF_8))) {
                     String line;
-                    while ((line = r.readLine()) != null) {
+                    while ((line = BoundedLineReader.readLine(r, 1000000)) != null) {
                         if (line.startsWith("#"))
                             continue;   // comment line
                         line = line.trim();
