@@ -41,7 +41,8 @@ THE SOFTWARE.
   <properties>
     <xmlunit.version>2.9.1</xmlunit.version>
     <!-- Filled in by jacoco-maven-plugin -->
-    <jacocoSurefireArgs />
+    <jacocoSurefireArgs/>
+    <versions.java-security-toolkit>1.0.0</versions.java-security-toolkit>
   </properties>
 
   <dependencyManagement>
@@ -52,6 +53,11 @@ THE SOFTWARE.
         <version>${project.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.openpixee</groupId>
+        <artifactId>java-security-toolkit</artifactId>
+        <version>${versions.java-security-toolkit}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -528,6 +534,10 @@ THE SOFTWARE.
       <version>${xmlunit.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>io.openpixee</groupId>
+      <artifactId>java-security-toolkit</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -662,7 +672,7 @@ THE SOFTWARE.
             <manifest>
               <mainClass>hudson.Main</mainClass>
               <addClasspath>true</addClasspath>
-              <classpathPrefix />
+              <classpathPrefix/>
             </manifest>
           </archive>
         </configuration>
