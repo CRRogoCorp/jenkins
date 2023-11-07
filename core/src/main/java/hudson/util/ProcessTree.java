@@ -26,6 +26,7 @@ package hudson.util;
 
 import static com.sun.jna.Pointer.NULL;
 import static hudson.util.jna.GNUCLibrary.LIBC;
+import io.github.pixee.security.BoundedLineReader;
 import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.FINEST;
 
@@ -889,7 +890,7 @@ public abstract class ProcessTree implements Iterable<OSProcess>, IProcessTree, 
 
                 try (BufferedReader r = Files.newBufferedReader(Util.fileToPath(getFile("status")), StandardCharsets.UTF_8)) {
                     String line;
-                    while ((line = r.readLine()) != null) {
+                    while ((line = BoundedLineReader.readLine(r, 5_000_000)) != null) {
                         line = line.toLowerCase(Locale.ENGLISH);
                         if (line.startsWith("ppid:")) {
                             ppid = Integer.parseInt(line.substring(5).trim());

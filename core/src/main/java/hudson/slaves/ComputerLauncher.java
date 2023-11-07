@@ -33,6 +33,7 @@ import hudson.remoting.Channel;
 import hudson.util.DescriptorList;
 import hudson.util.StreamTaskListener;
 import hudson.util.VersionNumber;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -187,7 +188,7 @@ public abstract class ComputerLauncher extends AbstractDescribableImpl<ComputerL
             throws IOException {
         String line;
         Pattern p = Pattern.compile("(?i)(?:java|openjdk) version \"([0-9.]+).*\".*");
-        while (null != (line = r.readLine())) {
+        while (null != (line = BoundedLineReader.readLine(r, 5_000_000))) {
             Matcher m = p.matcher(line);
             if (m.matches()) {
                 final String versionStr = m.group(1);
