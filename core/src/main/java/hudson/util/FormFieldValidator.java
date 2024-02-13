@@ -35,6 +35,7 @@ import hudson.model.AbstractProject;
 import hudson.model.Item;
 import hudson.security.AccessControlled;
 import hudson.security.Permission;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -276,7 +277,7 @@ public abstract class FormFieldValidator {
          */
         protected boolean findText(BufferedReader in, String literal) throws IOException {
             String line;
-            while ((line = in.readLine()) != null)
+            while ((line = BoundedLineReader.readLine(in, 5_000_000)) != null)
                 if (line.contains(literal))
                     return true;
             return false;

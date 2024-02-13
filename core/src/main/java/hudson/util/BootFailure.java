@@ -2,6 +2,7 @@ package hudson.util;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
 import hudson.WebAppMain;
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -66,7 +67,7 @@ public abstract class BootFailure extends ErrorObject {
                         String line;
                         // WebAppMain.recordBootAttempt uses Date.toString when writing, so that is the format we must parse.
                         SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
-                        while ((line = failureFileReader.readLine()) != null) {
+                        while ((line = BoundedLineReader.readLine(failureFileReader, 5_000_000)) != null) {
                             try {
                                 dates.add(df.parse(line));
                             } catch (Exception e) {
