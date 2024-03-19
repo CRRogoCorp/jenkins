@@ -31,6 +31,7 @@ import hudson.Launcher;
 import hudson.Util;
 import hudson.tasks.BuildWrapper;
 import hudson.util.VariableResolver;
+import io.github.pixee.security.Filenames;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -95,7 +96,7 @@ public class FileParameterValue extends ParameterValue {
 
     @DataBoundConstructor
     public FileParameterValue(String name, FileItem file) {
-        this(name, file, FilenameUtils.getName(file.getName()));
+        this(name, file, FilenameUtils.getName(Filenames.toSimpleFileName(file.getName())));
     }
 
     public FileParameterValue(String name, File file, String originalFileName) {
@@ -157,7 +158,7 @@ public class FileParameterValue extends ParameterValue {
             @SuppressFBWarnings(value = {"FILE_UPLOAD_FILENAME", "NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"}, justification = "TODO needs triage")
             @Override
             public Environment setUp(AbstractBuild build, Launcher launcher, BuildListener listener) throws IOException, InterruptedException {
-                if (location != null && !location.isEmpty() && file.getName() != null && !file.getName().isEmpty()) {
+                if (location != null && !location.isEmpty() && Filenames.toSimpleFileName(file.getName()) != null && !file.getName().isEmpty()) {
                     listener.getLogger().println("Copying file to " + location);
                     FilePath ws = build.getWorkspace();
                     if (ws == null) {

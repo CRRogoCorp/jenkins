@@ -29,6 +29,7 @@ import edu.umd.cs.findbugs.annotations.NonNull;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.Extension;
 import hudson.cli.CLICommand;
+import io.github.pixee.security.Filenames;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
@@ -99,7 +100,7 @@ public class FileParameterDefinition extends ParameterDefinition {
             // the requested file parameter wasn't uploaded
             return null;
         }
-        FileParameterValue p = new FileParameterValue(getName(), src, getFileName(src.getName()));
+        FileParameterValue p = new FileParameterValue(getName(), src, getFileName(Filenames.toSimpleFileName(src.getName())));
         p.setDescription(getDescription());
         p.setLocation(getName());
         return p;

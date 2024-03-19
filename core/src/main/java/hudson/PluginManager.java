@@ -28,6 +28,7 @@ import static hudson.init.InitMilestone.COMPLETED;
 import static hudson.init.InitMilestone.PLUGINS_LISTED;
 import static hudson.init.InitMilestone.PLUGINS_PREPARED;
 import static hudson.init.InitMilestone.PLUGINS_STARTED;
+import io.github.pixee.security.Filenames;
 import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.WARNING;
@@ -1869,7 +1870,7 @@ public abstract class PluginManager extends AbstractModelObject implements OnMas
             } else {
                 // this is a file upload
                 FileItem fileItem = items.get(0);
-                fileName = Util.getFileName(fileItem.getName());
+                fileName = Util.getFileName(Filenames.toSimpleFileName(fileItem.getName()));
                 copier = new FileUploadPluginCopier(fileItem);
             }
 
