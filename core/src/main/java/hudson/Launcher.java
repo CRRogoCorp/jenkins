@@ -24,6 +24,7 @@
 
 package hudson;
 
+import io.github.pixee.security.SystemCommand;
 import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 
 import edu.umd.cs.findbugs.annotations.CheckForNull;
@@ -1463,9 +1464,7 @@ public abstract class Launcher {
 
         @Override
         public OutputStream call() throws IOException {
-            Process p = Runtime.getRuntime().exec(cmd,
-                Util.mapToEnv(inherit(envOverrides)),
-                workDir == null ? null : new File(workDir));
+            Process p = SystemCommand.runCommand(Runtime.getRuntime(), cmd, Util.mapToEnv(inherit(envOverrides)), workDir == null ? null : new File(workDir));
 
             List<String> cmdLines = Arrays.asList(cmd);
             new StreamCopyThread("stdin copier for remote agent on " + cmdLines,

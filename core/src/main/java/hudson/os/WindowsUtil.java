@@ -26,6 +26,7 @@ package hudson.os;
 
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Functions;
+import io.github.pixee.security.SystemCommand;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
@@ -97,7 +98,7 @@ public class WindowsUtil {
      */
     public static @NonNull Process execCmd(String... argv) throws IOException {
         String command = Arrays.stream(argv).map(WindowsUtil::quoteArgumentForCmd).collect(Collectors.joining(" "));
-        return Runtime.getRuntime().exec(new String[]{"cmd.exe", "/C", command});
+        return SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"cmd.exe", "/C", command});
     }
 
     /**
